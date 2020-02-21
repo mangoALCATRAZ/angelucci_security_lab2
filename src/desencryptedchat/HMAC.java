@@ -57,8 +57,10 @@ public class HMAC {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         
         
-        byte[] hash = digest.digest(in.getBytes(StandardCharsets.UTF_8));
-        return Arrays.toString(hash);
+        byte[] hash = digest.digest();
+        
+        
+        return ChatHelper.byteArrToBinaryString(hash);
 
     }
     

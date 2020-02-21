@@ -15,10 +15,13 @@ public class listenerThread extends Thread{
     private Socket sock;
     private volatile boolean endFlag;
     private String privateKey = "";
+    private HMAC hmac;
     
-    public listenerThread(Socket inSock){
+    public listenerThread(Socket inSock, HMAC in){
         sock = inSock;
         endFlag = false;
+        
+        hmac = in;
     }
     
     @Override
@@ -57,10 +60,32 @@ public class listenerThread extends Thread{
                 
                 ReversedRoundKeyArray = KeyGenerator.roundKeyArrayReversal(ReversedRoundKeyArray);
                 String pt = EncryptDecrypt.Decrypt(received, ReversedRoundKeyArray);
-                String printOut = ChatHelper.binaryStringToText(pt);
+               // String rawMessage = ChatHelper.binaryStringToText(pt);
                 
                 
-                System.out.println(sock.getInetAddress().toString() + ": " + printOut); // output goes here.
+               
+                String hmacChecksum = pt.substring(0, 255);
+                String bitMessage = pt.substring(256, pt.length());
+                
+                System.out.println("\n\nCiphertext received: " + received);
+                System.out.println("HMAC and plaintext append received: " + pt);
+                System.out.println("Plain message received: " + bitMessage);
+                
+                System.out.println("HMAC checksum received: " + hmacChecksum);
+                
+                String newChecksum = hmac.run(bitMessage);
+                
+                System.out.println("New derived HMAC: " + newChecksum);
+                if(newChecksum.equals(hmacChecksum)){
+                    System.out.println(sock.getInetAddress().toString() + ": " + ChatHelper.binaryStringToText(bitMessage));
+                }
+                else{
+                    System.out.println("\n\nerror with hmac");
+                }
+                
+                
+                
+                
                 
                 
             }

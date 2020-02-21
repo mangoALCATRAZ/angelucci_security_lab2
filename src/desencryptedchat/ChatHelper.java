@@ -90,7 +90,14 @@ public class ChatHelper {
     
 
    
-    
+    public static String byteArrToBinaryString(byte[] in){
+        String ret = new String();
+        for(int i = 0; i < in.length; i++){
+            ret = ret.concat(String.format("%8s", Integer.toBinaryString((byte) in[i] & 0xFF)).replace(' ', '0'));
+        }
+        
+        return ret;
+    }
         
     
     

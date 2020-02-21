@@ -119,7 +119,7 @@ public class DESencryptedChat {
     
     public static void senderThread(Socket sock) throws Exception{
         // fork here
-        listenerThread lThread = new listenerThread(sock);
+        listenerThread lThread = new listenerThread(sock, hmac);
         lThread.start(); // starts listening thread
         
         boolean stopFlag = false;
@@ -147,7 +147,12 @@ public class DESencryptedChat {
                 
                 // insert while loop for longer than 64 bits here
                 
-                EncryptDecrypt ed = new EncryptDecrypt(userInput);
+                String thisHMAC = hmac.run(ChatHelper.textToBinaryString(userInput));
+                System.out.println("Plaintext message sent: " + ChatHelper.textToBinaryString(userInput));
+                System.out.println("Derived HMAC of above: " + thisHMAC);
+                String plainText = thisHMAC.concat(ChatHelper.textToBinaryString(userInput));
+                
+                EncryptDecrypt ed = new EncryptDecrypt(plainText);
                 //
                 String key
                         = "00010011"
@@ -164,9 +169,11 @@ public class DESencryptedChat {
                 String[] RoundKeyArray = kg.keyGenerator(privateKey);
                                 
                 String ct = ed.Encrypt(ed.getInitialMessage(), RoundKeyArray);
+                System.out.println("HMAC and plaintext append: " + plainText);
+                System.out.println("Ciphertext sent: " + ct);
                 
-                System.out.println("\tCypherText in binary: " + ct);
-                System.out.println("\tCypherText translated from binary: " + ChatHelper.binaryStringToText(ct));
+               // System.out.println("\tCypherText in binary: " + ct);
+                //System.out.println("\tCypherText translated from binary: " + ChatHelper.binaryStringToText(ct));
                 
                 // end while loop
                 
