@@ -71,18 +71,24 @@ public class ChatHelper {
     }
     
     public static String hmacKeyConverter(String in, int blockSize){
-        String binReadOut = textToBinaryString(in);
-        String binManip = binReadOut;
-        if(binReadOut.length() >= blockSize){
+        String bitReadOut = textToBinaryString(in);
+        StringBuilder bitManip = new StringBuilder(bitReadOut);
+        if(bitManip.length() >= blockSize){
             return ChatHelper.keyConverter(in);
         }
         else{
-            while(binManip.length() < blockSize){
-                binManip.insert
+            while(bitManip.length() < blockSize){
+               bitManip.insert(0, '0');
+               
+               
+                
             }
+            
+            return bitManip.toString();
         }
     }
     
+
    
     
         
