@@ -64,20 +64,27 @@ public class listenerThread extends Thread{
                 
                 
                
-                String hmacChecksum = pt.substring(0, 255);
+                String hmacChecksum = pt.substring(0, 256);
                 String bitMessage = pt.substring(256, pt.length());
                 
                 System.out.println("\n\nCiphertext received: " + received);
+                System.out.println("    Length: " + received.length());
+                
                 System.out.println("HMAC and plaintext append received: " + pt);
+                System.out.println("    Length: " + pt.length());
+                
                 System.out.println("Plain message received: " + bitMessage);
+                System.out.println("    Length: " + bitMessage.length());
                 
                 System.out.println("HMAC checksum received: " + hmacChecksum);
+                System.out.println("    Length: " + hmacChecksum.length());
                 
                 String newChecksum = hmac.run(bitMessage);
                 
                 System.out.println("New derived HMAC: " + newChecksum);
+                System.out.println("    Length: " + newChecksum.length());
                 if(newChecksum.equals(hmacChecksum)){
-                    System.out.println(sock.getInetAddress().toString() + ": " + ChatHelper.binaryStringToText(bitMessage));
+                    System.out.println("\n" + sock.getInetAddress().toString() + " says: " + ChatHelper.binaryStringToText(bitMessage));
                 }
                 else{
                     System.out.println("\n\nerror with hmac");

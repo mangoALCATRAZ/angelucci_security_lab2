@@ -126,9 +126,13 @@ public class EncryptDecrypt {
             };
     
     // sets up message
-    public EncryptDecrypt(String inMessage){
-        
-        message = ChatHelper.textToBinaryString(inMessage);
+    public EncryptDecrypt(String inMessage, boolean convert){
+        if(convert == true){
+            message = ChatHelper.textToBinaryString(inMessage);
+        }
+        else{
+            message = inMessage;
+        }
     }
     
     // takes 64 bit msg, puts it through IP table, outputs 64 bit

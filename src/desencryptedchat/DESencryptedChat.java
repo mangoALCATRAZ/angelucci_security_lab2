@@ -149,10 +149,12 @@ public class DESencryptedChat {
                 
                 String thisHMAC = hmac.run(ChatHelper.textToBinaryString(userInput));
                 System.out.println("Plaintext message sent: " + ChatHelper.textToBinaryString(userInput));
+                System.out.println("    Length: " + ChatHelper.textToBinaryString(userInput).length());
                 System.out.println("Derived HMAC of above: " + thisHMAC);
+                System.out.println("   Length: " + thisHMAC.length());
                 String plainText = thisHMAC.concat(ChatHelper.textToBinaryString(userInput));
                 
-                EncryptDecrypt ed = new EncryptDecrypt(plainText);
+                EncryptDecrypt ed = new EncryptDecrypt(plainText, false);
                 //
                 String key
                         = "00010011"
@@ -170,7 +172,9 @@ public class DESencryptedChat {
                                 
                 String ct = ed.Encrypt(ed.getInitialMessage(), RoundKeyArray);
                 System.out.println("HMAC and plaintext append: " + plainText);
+                System.out.println("    Length: " + plainText.length());
                 System.out.println("Ciphertext sent: " + ct);
+                System.out.println("    Length: " + ct.length());
                 
                // System.out.println("\tCypherText in binary: " + ct);
                 //System.out.println("\tCypherText translated from binary: " + ChatHelper.binaryStringToText(ct));
