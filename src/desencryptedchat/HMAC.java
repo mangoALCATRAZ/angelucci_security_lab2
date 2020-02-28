@@ -56,6 +56,7 @@ public class HMAC {
     public String SHA256(String in) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         
+        digest.update(in.getBytes(StandardCharsets.UTF_8));
         
         byte[] hash = digest.digest();
         
