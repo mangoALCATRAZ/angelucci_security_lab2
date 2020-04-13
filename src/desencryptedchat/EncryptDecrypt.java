@@ -129,6 +129,7 @@ public class EncryptDecrypt {
     public EncryptDecrypt(String inMessage, boolean convert){
         if(convert == true){
             message = ChatHelper.textToBinaryString(inMessage);
+            //System.out.println("\nText to binary string:" + message);
         }
         else{
             message = inMessage;
